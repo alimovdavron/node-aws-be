@@ -1,0 +1,9 @@
+{
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": "{\"name\": \"Frederic\"}",
+  "queryStringParameters": {
+    "productId": "46e8543c-9b42-4dec-a09b-ceb68c005b5b"
+  }
+}
