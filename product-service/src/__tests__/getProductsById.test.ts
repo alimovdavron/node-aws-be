@@ -29,4 +29,20 @@ describe('getProductsById', () => {
         //     'Access-Control-Allow-Origin': '*'
         // })
     })
+
+    test('should return response with status code 400', async () => {
+        const event = {
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "pathParameters": {
+                "productId": "some invalid productid"
+            },
+            "body": "{}"
+        }
+
+        const response: any = await getProductsById(event, null, null);
+
+        expect(response.statusCode).toBe(400);
+    })
 })

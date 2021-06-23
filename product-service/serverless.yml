@@ -38,5 +38,5 @@ functions:
           path: /products/{productId}
 #          request:
 #            schemas:
-#              application/json: ${src/functions/getProductsById/schema.ts}
+#              application/json: ${file(src/functions/getProductsById/schema.json)}
           cors: true
