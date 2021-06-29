@@ -28,7 +28,6 @@ functions:
       - http:
           method: get
           path: /products
-          cors: true
 
   getProductsById:
     handler: src/functions/getProductsById/handler.main
@@ -36,7 +35,7 @@ functions:
       - http:
           method: get
           path: /products/{productId}
-#          request:
-#            schemas:
-#              application/json: ${file(src/functions/getProductsById/schema.json)}
-          cors: true
+          request:
+            parameters:
+              paths:
+                productId: true

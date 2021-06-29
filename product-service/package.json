@@ -14,6 +14,7 @@
     "@middy/http-cors": "^2.4.1",
     "@middy/http-json-body-parser": "^1.5.2",
     "@types/jest": "^26.0.23",
+    "serverless-reqvalidator-plugin": "^1.0.4",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {

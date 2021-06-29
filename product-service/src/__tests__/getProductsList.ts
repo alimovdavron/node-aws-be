@@ -1,5 +1,5 @@
 import { main as getProductsList }  from "../functions/getProductsList/handler";
-import allProducts from "@libs/productList.json";
+import allProducts from "../database/productList.json";
 
 describe('getProductsList', () => {
     test('should successfully return response', async () => {
@@ -12,10 +12,12 @@ describe('getProductsList', () => {
 
         const response: any = await getProductsList(event, null, null);
 
-        expect(response.statusCode).toBe(200);
-        expect(response.body).toBe(JSON.stringify(allProducts));
-        // expect(response.headers).toStrictEqual({
-        //     'Access-Control-Allow-Origin': '*'
-        // })
+        expect(response).toStrictEqual({
+            statusCode: 200,
+            body: JSON.stringify(allProducts),
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
     })
 })

@@ -23,11 +23,13 @@ describe('getProductsById', () => {
 
         const response: any = await getProductsById(event, null, null);
 
-        expect(response.statusCode).toBe(200);
-        expect(response.body).toBe(JSON.stringify(expectedProduct));
-        // expect(response.headers).toStrictEqual({
-        //     'Access-Control-Allow-Origin': '*'
-        // })
+        expect(response).toStrictEqual({
+            statusCode: 200,
+            body: JSON.stringify(expectedProduct),
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
     })
 
     test('should return response with status code 400', async () => {

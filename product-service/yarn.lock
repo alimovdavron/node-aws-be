@@ -6394,6 +6394,11 @@ serialize-javascript@^5.0.1:
   dependencies:
     randombytes "^2.1.0"
 
+serverless-reqvalidator-plugin@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/serverless-reqvalidator-plugin/-/serverless-reqvalidator-plugin-1.0.4.tgz#b2ce86bfcee3c35512f6495fccba278db8bc074b"
+  integrity sha512-yAL/NLriFrcuh8jYAY1qkCRTJlUthaTl8T7bI3omUKrd9iMW3JRPejiDGp0JnTk16NjoXDf3uTljIFlEFQ5N/g==
+
 serverless-webpack@^5.3.5:
   version "5.5.1"
   resolved "https://registry.yarnpkg.com/serverless-webpack/-/serverless-webpack-5.5.1.tgz#cd42a90d517678907b8b5b8612f762357bc54f3e"
