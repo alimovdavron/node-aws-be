@@ -34,7 +34,7 @@ describe('getProductsById', () => {
         })
     })
 
-    test('should successfully return response', async () => {
+    test('should return 404 error', async () => {
         const event = {
             "headers": {
                 "Content-Type": "application/json"

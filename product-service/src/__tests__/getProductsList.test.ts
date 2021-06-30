@@ -10,18 +10,6 @@ describe('getProductsList', () => {
         mockedProducts.mockImplementation(() => productsFixture);
     })
 
-    test('test of test kek', async () => {
-        const event = {
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": "{}"
-        }
-
-        const response: any = await getProductsList(event, null, null);
-        console.log(response)
-    })
-
     test('should successfully return response', async () => {
         const event = {
             "headers": {
