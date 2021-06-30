@@ -1,4 +1,4 @@
-import {Product} from "../../database/productSchema";
+import {Product} from "../database/productSchema";
 
 export default [
     {

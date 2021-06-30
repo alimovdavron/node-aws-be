@@ -1,6 +1,6 @@
 import { main as getProductsList }  from "../functions/getProductsList/handler";
 import products from "../database/productList";
-import productsFixture from "./fixtures/products";
+import productsFixture from "../fixtures/products";
 
 jest.mock('../database/productList');
 const mockedProducts = products as jest.MockedFunction<typeof products>;
