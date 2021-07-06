@@ -1,6 +1,7 @@
 import {Product} from "./productSchema";
 import products from "./productList";
 import {ProductServiceError} from "@functions/errors";
+import connection from './connection';
 
 export const getProductById:(productId: string) => Promise<Product | undefined> = async (productId: string) => {
     const product = products().find((product) => product.id === productId);
@@ -12,6 +13,8 @@ export const getProductById:(productId: string) => Promise<Product | undefined> 
     return product;
 }
 
+const getProductsQuery = `select id, title, description, price, img_url from product`;
+
 export const getProducts: () => Promise<Product[]> = async () => {
-    return products() ?? [];
+    return connection.query(getProductsQuery, undefined);
 }

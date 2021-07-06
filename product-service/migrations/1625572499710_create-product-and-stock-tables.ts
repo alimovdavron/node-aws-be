@@ -1,9 +1,8 @@
 /* eslint-disable camelcase */
-
+import { MigrationBuilder } from "node-pg-migrate"
 exports.shorthands = undefined;
 
-
-exports.up = pgm => {
+exports.up = (pgm: MigrationBuilder) => {
     pgm.createTable('product', {
         id: {
             type: 'uuid',
@@ -18,6 +17,9 @@ exports.up = pgm => {
         },
         price: {
             type: 'integer'
+        },
+        img_url: {
+            type: 'text'
         }
     })
     pgm.createTable('stock', {
@@ -37,7 +39,7 @@ exports.up = pgm => {
     })
 };
 
-exports.down = pgm => {
+exports.down = (pgm: MigrationBuilder) => {
     pgm.dropTable('stock');
     pgm.dropTable('product');
 };
