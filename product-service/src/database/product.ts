@@ -1,10 +1,11 @@
 import {Product} from "./productSchema";
-import products from "./productList";
 import {ProductServiceError} from "@functions/errors";
+import { getProducts as getProductsQuery, getProductById as getProductByIdQuery } from './sql'
 import connection from './connection';
 
 export const getProductById:(productId: string) => Promise<Product | undefined> = async (productId: string) => {
-    const product = products().find((product) => product.id === productId);
+    const product: Product | undefined = await connection.query(getProductByIdQuery, [productId]);
+    // const product = products().find((product) => product.id === productId);
 
     if(!product) {
         throw new ProductServiceError(404, "There's no book with such id");
@@ -12,8 +13,6 @@ export const getProductById:(productId: string) => Promise<Product | undefined> 
 
     return product;
 }
-
-const getProductsQuery = `select id, title, description, price, img_url from product`;
 
 export const getProducts: () => Promise<Product[]> = async () => {
     return connection.query(getProductsQuery, undefined);
