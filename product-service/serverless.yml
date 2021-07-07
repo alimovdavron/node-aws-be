@@ -29,6 +29,7 @@ functions:
     events:
       - http:
           method: get
+          cors: true
           path: /products
 
   postProduct:
@@ -37,6 +38,7 @@ functions:
       - http:
           method: post
           path: /products
+          cors: true
           request:
             schemas:
               application/json: ${file(src/functions/postProduct/schema.json)}
@@ -47,6 +49,7 @@ functions:
       - http:
           method: get
           path: /products/{productId}
+          cors: true
           request:
             parameters:
               paths:
