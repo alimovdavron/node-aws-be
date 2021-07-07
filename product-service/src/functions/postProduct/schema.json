@@ -1,0 +1,25 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "title": "Product Schema",
+  "required": ["title"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "title": "Title"
+    },
+    "description": {
+      "type": "string",
+      "title": "Description"
+    },
+    "price": {
+      "type": "integer",
+      "title": "Price"
+    },
+    "img_url": {
+      "type": "string",
+      "title": "Img_url"
+    }
+  }
+}

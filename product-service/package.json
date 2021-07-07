@@ -4,9 +4,10 @@
   "description": "Serverless aws-nodejs-typescript template",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "yarn sls deploy",
     "migrate": "ts-node node_modules/.bin/node-pg-migrate -j ts",
-    "migrate:up": "yarn migrate -f dbconfig.json up",
-    "migrate:down": "yarn migrate -f dbconfig.json down"
+    "migrate:up": "yarn migrate up",
+    "migrate:down": "yarn migrate down"
   },
   "engines": {
     "node": ">=14.15.0"
@@ -18,10 +19,13 @@
     "@middy/http-json-body-parser": "^1.5.2",
     "@types/jest": "^26.0.23",
     "@types/pg": "^8.6.0",
+    "dotenv": "^10.0.0",
     "node-pg-migrate": "^5.10.0",
     "pg": "^8.6.0",
+    "serverless-dotenv-plugin": "^3.9.0",
     "serverless-reqvalidator-plugin": "^1.0.4",
-    "source-map-support": "^0.5.19"
+    "source-map-support": "^0.5.19",
+    "ts-jest": "^27.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",

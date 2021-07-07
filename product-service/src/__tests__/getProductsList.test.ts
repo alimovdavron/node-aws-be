@@ -1,13 +1,19 @@
 import { main as getProductsList }  from "../functions/getProductsList/handler";
-import products from "../database/productList";
+import { requestArray } from "../database/connection";
+import { mockFunction } from '../jestHelper/mockFunction'
 import productsFixture from "../fixtures/products";
+import { PossibleQueries } from "../database/connection";
 
-jest.mock('../database/productList');
-const mockedProducts = products as jest.MockedFunction<typeof products>;
+jest.mock("../database/connection");
+const requestArrayMock = mockFunction(requestArray);
 
 describe('getProductsList', () => {
     beforeAll(() => {
-        mockedProducts.mockImplementation(() => productsFixture);
+        requestArrayMock.mockImplementation(async (query) => {
+            if(query === PossibleQueries.SELECT_ALL_PRODUCTS) {
+                return productsFixture;
+            }
+        })
     })
 
     test('should successfully return response', async () => {

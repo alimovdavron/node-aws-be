@@ -2,6 +2,7 @@ service: product-service
 
 frameworkVersion: '2'
 
+useDotenv: true
 provider:
   name: aws
   runtime: nodejs14.x
@@ -20,6 +21,7 @@ custom:
 
 plugins:
   - serverless-webpack
+  - serverless-dotenv-plugin
 
 functions:
   getProductsList:
@@ -28,6 +30,15 @@ functions:
       - http:
           method: get
           path: /products
+
+  postProduct:
+    handler: src/functions/postProduct/handler.main
+    events:
+      - http:
+          method: post
+          path: /products
+          schemas:
+            application/json: ${file(src/functions/postProduct/schema.json)}
 
   getProductsById:
     handler: src/functions/getProductsById/handler.main
