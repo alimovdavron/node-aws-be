@@ -11,13 +11,13 @@ export const middyfy = (handler, enableCors: boolean, validationRules: null | Va
 
     middified.use(loggingMiddleware());
 
+    middified.use(middyJsonBodyParser())
+
     if(validationRules) {
         middified.use(validationMiddleware(validationRules))
     }
 
-    middified
-        .use(errorHandler())
-        .use(middyJsonBodyParser())
+    middified.use(errorHandler());
 
     if(enableCors) {
         middified.use(cors())
