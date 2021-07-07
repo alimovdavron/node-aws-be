@@ -89,6 +89,7 @@ export const transaction = async <T>(callback: (connection: Connection) => Promi
             await client.query('COMMIT')
         } catch (e) {
             await client.query('ROLLBACK')
+            throw e;
         }
     } finally {
         client.release()

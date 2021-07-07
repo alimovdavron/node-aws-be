@@ -37,8 +37,9 @@ functions:
       - http:
           method: post
           path: /products
-          schemas:
-            application/json: ${file(src/functions/postProduct/schema.json)}
+          request:
+            schemas:
+              application/json: ${file(src/functions/postProduct/schema.json)}
 
   getProductsById:
     handler: src/functions/getProductsById/handler.main

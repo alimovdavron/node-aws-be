@@ -20,6 +20,10 @@
     "img_url": {
       "type": "string",
       "title": "Img_url"
+    },
+    "count": {
+      "type": "integer",
+      "title": "Count in stock"
     }
   }
 }
