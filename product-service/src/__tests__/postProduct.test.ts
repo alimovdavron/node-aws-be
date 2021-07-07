@@ -43,7 +43,7 @@ describe('getProductsList', () => {
                         }
                     }
 
-                    throw new Error("shoudn't be here")
+                    throw new Error("shouldn't be here")
                 },
             })
 
