@@ -1,10 +1,10 @@
-import { main as getProductsList }  from "../functions/getProductsList/handler";
-import { requestArray } from "../database/connection";
-import { mockFunction } from '../jestHelper/mockFunction'
-import productsFixture from "../fixtures/products";
-import { PossibleQueries } from "../database/connection";
+import { main as getProductsList }  from "@functions/getProductsList/handler";
+import { requestArray } from "../../database/connection";
+import { mockFunction } from '../../jestHelper/mockFunction'
+import productsFixture from "../../fixtures/products";
+import { PossibleQueries } from "../../database/connection";
 
-jest.mock("../database/connection");
+jest.mock("../../database/connection");
 const requestArrayMock = mockFunction(requestArray);
 
 describe('getProductsList', () => {

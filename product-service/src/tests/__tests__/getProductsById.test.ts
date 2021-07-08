@@ -1,9 +1,9 @@
-import { main as getProductsById }  from "../functions/getProductsById/handler";
-import productsFixture from "../fixtures/products";
-import { mockFunction } from "../jestHelper/mockFunction";
-import { PossibleQueries, requestSingle } from "../database/connection";
+import { main as getProductsById }  from "@functions/getProductsById/handler";
+import productsFixture from "../../fixtures/products";
+import { mockFunction } from "../../jestHelper/mockFunction";
+import { PossibleQueries, requestSingle } from "../../database/connection";
 
-jest.mock("../database/connection");
+jest.mock("../../database/connection");
 const requestSingleMock = mockFunction(requestSingle);
 
 describe('getProductsById', () => {
