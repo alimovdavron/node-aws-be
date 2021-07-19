@@ -13,13 +13,16 @@ const {
     PG_PORT: port
 } = process.env
 
-const pool = new Pool({
+const databaseOptions = {
     user,
     host,
     database,
     password,
     port: Number(port)
-})
+}
+
+// cached pool
+let pool: Pool;
 
 export const PossibleQueries = {
     SELECT_ALL_PRODUCTS: 0,
@@ -46,24 +49,46 @@ const queryOptionMap = {
 type Keys = keyof typeof PossibleQueries;
 export type PossibleQueries = typeof PossibleQueries[Keys];
 
-const _requestSingle = (connection: PoolClient) => async <T> (query: PossibleQueries, params): Promise<T | null> => {
-    const { SQL } = queryOptionMap[query];
-    // @ts-ignore
-    const result = await (connection ?? pool).query<T>(SQL, params);
+const initPool = () => {
+    if (!pool) {
+        pool = new Pool(databaseOptions);
+    }
 
-    if(result.rows.length === 0) {
+    return pool;
+}
+
+const _requestSingle = (connection: PoolClient | undefined) => async <T> (query: PossibleQueries, params): Promise<T | null> => {
+
+    const result = await _requestArray(connection)<T>(query, params);
+
+    if(result.length === 0) {
         return null;
     }
 
-    return result.rows[0];
+    return result[0];
 }
 
 const _requestArray = (connection: PoolClient | undefined) => async <T> (query: PossibleQueries, params): Promise<T[]> => {
     const { SQL } = queryOptionMap[query];
-    // @ts-ignore
-    const result = await (connection ?? pool).query<T>(SQL, params);
 
-    return result.rows;
+    if(connection) {
+        const result = await connection.query<T>(SQL, params);
+        return result.rows;
+    }
+    else {
+        const initializedPool = initPool();
+        const client = await initializedPool.connect();
+        try {
+            const result = await client.query<T>(SQL, params);
+            return result.rows;
+        }
+        catch (e) {
+            throw e;
+        }
+        finally {
+            client.release();
+        }
+    }
 }
 
 export const requestArray = _requestArray(undefined);
@@ -75,7 +100,8 @@ interface Connection {
 }
 
 export const transaction = async <T>(callback: (connection: Connection) => Promise<T>) => {
-    const client = await pool.connect();
+    const initializedPool = initPool();
+    const client = await initializedPool.connect();
 
     let value = undefined;
 
