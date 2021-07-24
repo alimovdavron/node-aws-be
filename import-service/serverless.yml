@@ -1,0 +1,59 @@
+service: import-service
+
+frameworkVersion: '2'
+
+useDotenv: true
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ${env:REGION}
+  apiGateway:
+    minimumCompressionSize: 1024
+    shouldStartNameWithService: true
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+  lambdaHashingVersion: 20201221
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+  s3BucketName: ${env:S3_BUCKET_NAME}
+
+plugins:
+  - serverless-webpack
+  - serverless-dotenv-plugin
+
+functions:
+  importProductsFile:
+    handler: src/functions/importProductsFile/handler.main
+    events:
+      - http:
+          method: get
+          cors: true
+          path: /import
+
+resources:
+  Resources:
+    CSVBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.s3BucketName}
+        AccessControl: PublicRead
+
+    CSVBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: CSVBucket
+        PolicyDocument:
+          Statement:
+            - Sid: 'AllowPublicAccess'
+              Effect: Allow
+              Action: s3:GetObject
+              Resource: arn:aws:s3:::${self:custom.s3BucketName}/*
+              Principal: "*"
+
+  Outputs:
+    CSVBucketOutput:
+      Value: !Ref CSVBucket

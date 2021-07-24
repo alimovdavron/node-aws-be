@@ -1,0 +1,84 @@
+swagger: "2.0"
+info:
+  description: "This a backend for book store."
+  version: "1.0.0"
+  title: "Book store"
+host: ""
+basePath: "/dev"
+tags:
+  - name: "product"
+schemes:
+  - "https"
+paths:
+  /products:
+    get:
+      tags:
+        - "product"
+      summary: "Get all products"
+      operationId: "getProducts"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Successfully fetched products"
+          schema:
+            $ref: "#/definitions/Products"
+
+  /products/{productId}:
+    get:
+      tags:
+        - "product"
+      summary: "Find product by id"
+      description: "Returns a single pet"
+      operationId: "getProductByid"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "productId"
+          in: "path"
+          description: "id of product to return"
+          required: true
+          type: "string"
+          format: "uuid4"
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Product"
+        "400":
+          description: "Invalid id supplied"
+        "404":
+          description: "Product not found"
+
+definitions:
+  Products:
+    type: "array"
+    items:
+      $ref: "#/definitions/Product"
+
+  Product:
+    type: "object"
+    required:
+      - "name"
+      - "photoUrls"
+    properties:
+      id:
+        type: "string"
+        format: "uuid4"
+        example: "7567ec4b-b10c-48c5-9345-fc73c48a80aa"
+      count:
+        type: "integer"
+        example: 5
+      img_url:
+        type: "string"
+        format: "url"
+        example: "https://images-na.ssl-images-amazon.com/images/I/81-N8W4ZgUL.jpg"
+      price:
+        type: "number"
+        example: 30.40
+      description:
+        type: "string"
+        example: "A 1957 novel by Ayn Rand"
+      title:
+        type: "string"
+        example: "Atlas Srugged"
