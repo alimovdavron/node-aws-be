@@ -12,12 +12,12 @@ const lambdaEntry: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (ev
 
   const s3 = new S3(s3BucketName, region);
 
-  return formatJSONResponse(await s3.getSignedPutUrl(name));
+  return formatJSONResponse((await s3.getSignedPutUrl(name)).replace("eu-central-1.", ''));
 }
 
 export const main = middyfy(lambdaEntry, true, [{
   type: "queryStringParameters",
   parameter: "name",
   validationFunction: value => ((typeof value === "string") && !!value),
-  errorMessage: "name must be string"
+  errorMessage: "name must be non-empty string"
 }]);
