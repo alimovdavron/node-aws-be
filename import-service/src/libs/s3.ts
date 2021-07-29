@@ -6,7 +6,8 @@ class S3 {
     constructor(bucketName: string, region: string) {
        this.bucketName = bucketName;
        this.s3 = new AWS.S3({
-           region
+           // region
+           signatureVersion: "v4"
        })
     }
 
@@ -23,7 +24,8 @@ class S3 {
             {
                 Bucket: this.bucketName,
                 Key: `uploaded/${fileName}`,
-                Expires: timeout
+                Expires: timeout,
+                ContentType: 'text/csv'
             }
         )
     }
