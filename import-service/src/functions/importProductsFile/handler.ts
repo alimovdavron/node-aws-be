@@ -12,7 +12,7 @@ const lambdaEntry: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (ev
 
   const s3 = new S3(s3BucketName, region);
 
-  return formatJSONResponse((await s3.getSignedPutUrl(name)).replace("eu-central-1.", ''));
+  return formatJSONResponse(await s3.getSignedPutUrl(name));
 }
 
 export const main = middyfy(lambdaEntry, true, [{
