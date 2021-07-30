@@ -43,6 +43,17 @@ functions:
           cors: true
           path: /import
 
+  importFileParser:
+    handler: src/functions/importFileParser/handler.main
+    events:
+      - s3:
+          bucket: ${env:S3_BUCKET_NAME}
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploaded/
+            - suffix: .csv
+          existing: true
+
 resources:
   Resources:
     CSVBucket:
