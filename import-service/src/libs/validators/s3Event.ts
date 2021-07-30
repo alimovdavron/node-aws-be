@@ -1,5 +1,5 @@
 import {ValidationError} from "@functions/errors";
-import { S3Event } from "aws-lambda";
+import {S3Event, } from "aws-lambda";
 
 const isObject = value => typeof value === 'object' && value !== null
 
@@ -8,7 +8,7 @@ const validEventSignature = (event: S3Event) => {
         return false;
     }
 
-    return event.Records.map((record): boolean => {
+    return !event.Records.map(record => {
         if(!isObject(record.s3)) {
             return false;
         }
@@ -30,7 +30,7 @@ const validEventSignature = (event: S3Event) => {
         }
 
         return true;
-    }).every((isValid) => !!isValid);
+    }).some((valid: boolean) => valid === false);
 }
 
 export default () => (request: { event: S3Event }) => {

@@ -33,7 +33,7 @@
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.7",
     "@serverless/typescript": "^2.23.0",
-    "@types/aws-lambda": "^8.10.71",
+    "@types/aws-lambda": "^8.10.81",
     "@types/node": "^16.4.6",
     "babel-jest": "^27.0.5",
     "jest": "^27.0.5",

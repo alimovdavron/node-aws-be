@@ -6,7 +6,7 @@ class S3 {
     constructor(bucketName: string, region: string) {
        this.bucketName = bucketName;
        this.s3 = new AWS.S3({
-           // region
+           region,
            signatureVersion: "v4"
        })
     }
@@ -28,6 +28,13 @@ class S3 {
                 ContentType: 'text/csv'
             }
         )
+    }
+
+    getFileStream = async (fileKey: string) => {
+        return this.s3.getObject({
+            Bucket: this.bucketName,
+            Key: fileKey
+        }).createReadStream()
     }
 }
 
