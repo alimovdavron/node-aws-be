@@ -2,10 +2,10 @@
   "Records": [{
     "s3": {
       "bucket": {
-
+        "name": "task-5-ad-csv"
       },
       "object": {
-
+        "key": "uploaded/myFile0.csv"
       }
     }
   }]

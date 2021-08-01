@@ -1,11 +1,7 @@
 import csv from "csv-parser";
 import ReadableStream = NodeJS.ReadableStream;
 
-interface Options {
-    logContent: boolean;
-}
-
-export const fromStream = async (stream: ReadableStream, options: Options) => {
+export const fromStream = async (stream: ReadableStream, options: { logContent: boolean; }) => {
     const parsedCSVRows = [];
     new Promise((resolve, reject) => {
         stream.pipe(csv())
@@ -15,6 +11,19 @@ export const fromStream = async (stream: ReadableStream, options: Options) => {
             })
             .on('end', () => {
                 resolve(parsedCSVRows);
+            })
+            .on('error', reject)
+    })
+}
+
+export const handlePerRecord = async (stream: ReadableStream, handler: Function) => {
+    new Promise<void>((resolve, reject) => {
+        stream.pipe(csv())
+            .on('data', async (row) => {
+                handler(row);
+            })
+            .on('end', () => {
+                resolve();
             })
             .on('error', reject)
     })
