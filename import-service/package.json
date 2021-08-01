@@ -20,6 +20,7 @@
     "@types/jest": "^26.0.23",
     "@types/pg": "^8.6.0",
     "aws-sdk": "^2.952.0",
+    "aws-sdk-mock": "^5.2.1",
     "csv-parser": "^3.0.0",
     "dotenv": "^10.0.0",
     "node-pg-migrate": "^5.10.0",
