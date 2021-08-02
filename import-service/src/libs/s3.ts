@@ -27,7 +27,7 @@ class S3 {
                 Expires: timeout,
                 ContentType: 'text/csv'
             }
-        )
+        );
     }
 
     getFileStream = async (fileKey: string) => {
