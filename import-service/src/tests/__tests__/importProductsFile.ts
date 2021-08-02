@@ -2,31 +2,31 @@ import { main as importProductsFile }  from "@functions/importProductsFile/handl
 import AWSMock from 'aws-sdk-mock';
 import AWS from 'aws-sdk';
 
-jest.mock("aws-sdk");
-
 describe('importProductsFile', () => {
-    let url: number;
+    let noise: number;
 
     beforeAll(() => {
         AWSMock.setSDKInstance(AWS);
     })
 
     beforeEach(() => {
+        noise = undefined;
         AWSMock.mock(
             'S3',
             'getSignedUrl',
-            async (operation, params) => {
-                if(operation !== 'PutObject') {
+            async (operation, params, callback) => {
+
+                if(operation !== 'putObject') {
                     throw new Error("signed url must be created for PutObject action")
                 }
 
                 const { Key, ContentType } = params;
 
-                if(Key || ContentType) {
+                if(!Key || !ContentType) {
                     throw new Error("Key and ContentType must be provided");
                 }
 
-                if(typeof Key !== 'string' && Key.startsWith('uploaded/')) {
+                if(typeof Key !== 'string' || !Key.startsWith('uploaded/')) {
                     throw new Error("file must have uploaded/ prefix");
                 }
 
@@ -38,11 +38,9 @@ describe('importProductsFile', () => {
                     throw new Error('content type must be text/csv');
                 }
 
-                url = Math.floor(Math.random() * 1000);
+                noise = Math.floor(Math.random() * 1000);
 
-                return Key.replace('uploaded/', '').replace(".csv", '') + url;
-
-                return "kek";
+                callback(null, Key.replace('uploaded/', '').replace(".csv", '') + noise);
         })
     })
 
@@ -50,27 +48,49 @@ describe('importProductsFile', () => {
         AWSMock.restore('S3');
     })
 
-    test('should return ', async () => {
+    test('should successfully return url', async () => {
+        const fileName = "myfile";
         const event = {
             "headers": {
                 "Content-Type": "application/json"
             },
             "queryStringParameters": {
-                "name": "myfile"
+                "name": `${fileName}.csv`
             },
             "body": "{}"
         };
 
         const response = await importProductsFile(event, null, null);
 
-        console.log(response);
+        expect(response.body).toBe(fileName + noise);
     })
 
-    // test('', async () => {
-    //
-    // })
-    //
-    // test('', async () => {
-    //
-    // })
+    test('should return validation error', async () => {
+        const event = {
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "queryStringParameters": {
+                "name": ''
+            },
+            "body": "{}"
+        };
+
+        const response = await importProductsFile(event, null, null);
+
+        expect(response.statusCode).toBe(400);
+    })
+
+    test('should return validation error', async () => {
+        const event = {
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": "{}"
+        };
+
+        const response = await importProductsFile(event, null, null);
+
+        expect(response.statusCode).toBe(400);
+    })
 })
