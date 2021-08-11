@@ -14,8 +14,10 @@ const handleSingleEvent = async (event: S3EventRecord) => {
     const s3 = new S3(s3BucketName, region);
     const sqs = new SQS(SQS_URL);
 
+    const key = event.s3.object.key;
+
     await apply(
-        await s3.getFileStream(event.s3.object.key),
+        await s3.getFileStream(key),
         async (csvRow) => sqs.sendMessage(csvRow.toString()),
     );
 
