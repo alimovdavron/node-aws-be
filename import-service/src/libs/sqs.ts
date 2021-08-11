@@ -12,7 +12,7 @@ class SQS {
         return new Promise((resolve, reject) => {
             this.sqs.sendMessage({
                 MessageBody: message,
-                QueueUrl: this.queueURL
+                QueueURL: this.queueURL
             }, (err, data) => {
                 if(err) {
                     reject(err);

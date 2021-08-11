@@ -16,11 +16,11 @@ export const fromStream = async (stream: ReadableStream, options: { logContent: 
     })
 }
 
-export const handlePerRecord = async (stream: ReadableStream, handler: Function) => {
+export const apply = async (stream: ReadableStream, handler: Function) => {
     new Promise<void>((resolve, reject) => {
         stream.pipe(csv())
             .on('data', async (row) => {
-                handler(row);
+                await handler(row);
             })
             .on('end', () => {
                 resolve();
