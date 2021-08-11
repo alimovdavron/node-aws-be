@@ -16,10 +16,14 @@ const handleSingleEvent = async (event: S3EventRecord) => {
     //     logContent: true
     // });
 
+    const key = event.s3.object.key;
+
     await handlePerRecord(
-        await s3.getFileStream(event.s3.object.key),
+        await s3.getFileStream(key),
         (row) => console.log(row)
     );
+
+    await s3.moveFileFromFolder(key, "parsed/");
 }
 
 const lambdaEntry = async (event: S3CreateEvent ) => {

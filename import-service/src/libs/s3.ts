@@ -18,35 +18,26 @@ class S3 {
         }).promise();
     }
 
-    public copyObject = async (fileKey: string): Promise <any> => {
-        return new Promise ((resolve, reject) => {
-            this.s3.copyObject({
-                Bucket: this.bucketName,
-                CopySource: fileKey,
-                Key: fileKey.replace("uploaded", "parsed"),
-            }, (err, data) => {
-                if(err) {
-                    reject(err)
-                } else resolve(data);
-            })
-        })
+    public copyObject = async (fileKey: string, destinationKey: string): Promise <any> => {
+        return this.s3.copyObject({
+            Bucket: this.bucketName,
+            CopySource: this.bucketName + "/" + fileKey,
+            Key: destinationKey,
+        }).promise()
     }
 
     public removeObject = async (fileKey: string): Promise <any> => {
-        return new Promise((resolve, reject) => {
-            this.s3.deleteObject({
-                Bucket: this.bucketName,
-                Key: fileKey
-            }, (err, data) => {,
-                if(err) {
-                    reject(err);
-                } else resolve(data);
-            })
-        })
+        return this.s3.deleteObject({
+            Bucket: this.bucketName,
+            Key: fileKey
+        }).promise()
     }
 
-    public moveFileFromFolder = async (fileKey: string, source: string, destination) => {
-
+    public moveFileFromFolder = async (fileKey: string, destinationPrefix: string) => {
+        await this.copyObject(
+            fileKey,
+            destinationPrefix + fileKey.split('/').slice(-1)[0]);
+        await this.removeObject(fileKey);
     }
 
     getSignedPutUrl = async (fileName: string, timeout: number = 120) => {
