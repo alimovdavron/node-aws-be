@@ -12,6 +12,7 @@ provider:
     shouldStartNameWithService: true
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    SQS_URL: ${cf:import-service-dev.createProductQueue}
   lambdaHashingVersion: 20201221
 
 custom:
@@ -35,6 +36,20 @@ functions:
   postProduct:
     handler: src/functions/postProduct/handler.main
     events:
+      - http:
+          method: post
+          path: /products
+          cors: true
+          request:
+            schemas:
+              application/json: ${file(src/functions/postProduct/schema.json)}
+
+  catalogBatchProcess:
+    handler: src/functions/catalogBatchProcess/handler.main
+    events:
+      - sqs:
+          arn: ${cf:import-service-dev.createProductQueueArn}
+          batchSize: 5
       - http:
           method: post
           path: /products

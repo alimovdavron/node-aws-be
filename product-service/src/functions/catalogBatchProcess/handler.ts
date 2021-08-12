@@ -2,9 +2,21 @@ import 'source-map-support/register';
 
 import { formatJSONResponse } from '@libs/apiGateway';
 import { middyfy } from '@libs/lambda';
-import { getProductById } from "../../database/product";
+import { SQSEvent, SQSRecord } from 'aws-lambda'
 
-const lambdaEntry = async (event, context) => {
+const handleSingleEvent = async (event: SQSRecord) => {
+    console.log(event.body)
 }
 
-export const main = middyfy(lambdaEntry, true, []);
+const lambdaEntry = async (event: SQSEvent ) => {
+    const { Records } = event;
+
+    await Promise.all(Records.map(record => handleSingleEvent(record)));
+
+    return formatJSONResponse({ message: "OK" });
+}
+
+export const main = middyfy(lambdaEntry, {
+    event: "SQSEvent",
+
+});

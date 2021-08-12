@@ -89,3 +89,12 @@ resources:
   Outputs:
     CSVBucketOutput:
       Value: !Ref CSVBucket
+    createProductQueue:
+      Value: !Ref CreateProductQueue
+      Export:
+        Name: createProductQueue
+    createProductQueueArn:
+      Value:
+         Fn::GetAtt:
+            - CreateProductQueue
+            - Arn
