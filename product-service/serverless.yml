@@ -50,13 +50,6 @@ functions:
       - sqs:
           arn: ${cf:import-service-dev.createProductQueueArn}
           batchSize: 5
-      - http:
-          method: post
-          path: /products
-          cors: true
-          request:
-            schemas:
-              application/json: ${file(src/functions/postProduct/schema.json)}
 
   getProductsById:
     handler: src/functions/getProductsById/handler.main

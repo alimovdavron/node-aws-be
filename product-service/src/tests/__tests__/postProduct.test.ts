@@ -24,7 +24,7 @@ describe('getProductsList', () => {
             "body": JSON.stringify(productToInsert)
         }
 
-        const response: any = await postProduct(event, null, null);
+        const response: any = await postProduct(event, {}, null);
         response.body = JSON.parse(response.body)
 
         expect(response).toStrictEqual({
@@ -56,7 +56,7 @@ describe('getProductsList', () => {
             "body": JSON.stringify(productToInsert)
         }
 
-        const response: any = await postProduct(event, null, null);
+        const response: any = await postProduct(event, {}, null);
         response.body = JSON.parse(response.body)
 
         expect(response.statusCode).toBe(400);
@@ -77,7 +77,7 @@ describe('getProductsList', () => {
             "body": JSON.stringify(productToInsert)
         }
 
-        const response: any = await postProduct(event, null, null);
+        const response: any = await postProduct(event, {}, null);
         response.body = JSON.parse(response.body)
 
         expect(response.statusCode).toBe(400);
@@ -99,7 +99,7 @@ describe('getProductsList', () => {
             "body": JSON.stringify(productToInsert)
         }
 
-        const response: any = await postProduct(event, null, null);
+        const response: any = await postProduct(event, {}, null);
         response.body = JSON.parse(response.body)
 
         expect(response.statusCode).toBe(400);
@@ -121,7 +121,7 @@ describe('getProductsList', () => {
             "body": JSON.stringify(productToInsert)
         }
 
-        const response: any = await postProduct(event, null, null);
+        const response: any = await postProduct(event, {}, null);
         response.body = JSON.parse(response.body)
 
         expect(response.statusCode).toBe(500);

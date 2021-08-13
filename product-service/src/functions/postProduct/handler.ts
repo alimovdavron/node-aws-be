@@ -1,10 +1,10 @@
 import 'source-map-support/register';
 
-import { formatJSONResponse } from '@libs/apiGateway';
-import { middyfy } from '@libs/lambda';
+import { formatJSONResponse } from 'libs/src/apiGateway';
+import { middyfy } from 'libs/src/lambda';
 import { insertProduct } from "../../database/product";
-import formatter from "@libs/logFormatters/apiGatewayEvent";
-import validator from "@libs/validators/apiGatewayEventValidator";
+import formatter from "libs/src/logFormatters/apiGatewayEvent";
+import validator from "libs/src/validators/apiGatewayEventValidator";
 
 const lambdaEntry = async (event, context) => {
     context.callbackWaitsForEmptyEventLoop = false;

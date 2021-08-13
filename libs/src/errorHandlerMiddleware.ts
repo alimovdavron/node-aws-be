@@ -1,4 +1,4 @@
-import {ProductServiceError} from "@functions/errors";
+import {ProductServiceError} from "./errors";
 
 export default () => ({
     onError: async (request) => {

@@ -1,4 +1,4 @@
-import {ValidationError} from "@functions/errors";
+import {ValidationError} from "../errors";
 import { APIGatewayProxyEvent } from "aws-lambda";
 
 export type ValidationRule = {

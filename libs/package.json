@@ -1,13 +1,9 @@
 {
-  "name": "import-service",
+  "name": "libs",
   "version": "1.0.0",
+  "main": "./lib/src",
   "description": "Serverless aws-nodejs-typescript template",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "yarn sls deploy",
-    "migrate": "ts-node node_modules/.bin/node-pg-migrate -j ts",
-    "migrate:up": "yarn migrate up",
-    "migrate:down": "yarn migrate down"
   },
   "engines": {
     "node": ">=14.15.0"
@@ -20,7 +16,6 @@
     "@types/jest": "^26.0.23",
     "@types/pg": "^8.6.0",
     "aws-sdk": "^2.952.0",
-    "aws-sdk-mock": "^5.2.1",
     "csv-parser": "^3.0.0",
     "dotenv": "^10.0.0",
     "node-pg-migrate": "^5.10.0",
@@ -34,8 +29,8 @@
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.7",
     "@serverless/typescript": "^2.23.0",
-    "@types/aws-lambda": "^8.10.81",
-    "@types/node": "^16.4.6",
+    "@types/aws-lambda": "^8.10.71",
+    "@types/node": "^14.14.25",
     "babel-jest": "^27.0.5",
     "jest": "^27.0.5",
     "json-schema-to-ts": "^1.5.0",

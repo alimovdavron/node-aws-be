@@ -3,12 +3,12 @@ import middyJsonBodyParser from "@middy/http-json-body-parser"
 import cors from "./corsMiddleware";
 import errorHandler from "./errorHandlerMiddleware";
 import validationMiddleware from "./validatorMIddleware";
-import loggingMiddleware from "@libs/loggingMiddleware";
+import loggingMiddleware from "./loggingMiddleware";
 import dotenv from 'dotenv';
 
 type S3Event = "S3Event";
 type ApiGatewayEvent = "ApiGatewayEvent";
-type SQSEvent = "SQSEvent";
+type SQSEvent = 'SQSEvent';
 
 type Events = S3Event | ApiGatewayEvent | SQSEvent;
 

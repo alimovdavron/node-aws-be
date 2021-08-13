@@ -1,13 +1,13 @@
 import 'source-map-support/register';
 
-import { formatJSONResponse } from '@libs/apiGateway';
-import { middyfy } from '@libs/lambda';
+import { formatJSONResponse } from 'libs/src/apiGateway';
+import { middyfy } from 'libs/src/lambda';
 import {S3CreateEvent, S3EventRecord} from 'aws-lambda';
-import S3 from "@libs/s3";
-import SQS from "@libs/sqs";
-import formatter from "@libs/logFormatters/s3Event"
-import { apply } from '@libs/csv';
-import validator from '@libs/validators/s3Event';
+import S3 from "libs/src/s3";
+import SQS from "libs/src/sqs";
+import formatter from "libs/src/logFormatters/s3Event"
+import { apply } from 'libs/src/csv';
+import validator from 'libs/src/validators/s3Event';
 
 const handleSingleEvent = async (event: S3EventRecord) => {
     const { S3_BUCKET_NAME: s3BucketName, REGION: region, SQS_URL } = process.env;
@@ -18,7 +18,7 @@ const handleSingleEvent = async (event: S3EventRecord) => {
 
     await apply(
         await s3.getFileStream(key),
-        async (csvRow) => sqs.sendMessage(csvRow.toString()),
+        async (csvRow) => sqs.sendMessage(JSON.stringify(csvRow)),
     );
 
     await s3.moveFileFromFolder(key, "parsed/");
