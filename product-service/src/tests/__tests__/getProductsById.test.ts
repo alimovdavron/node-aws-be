@@ -28,6 +28,7 @@ describe('getProductsById', () => {
             "body": "{}"
         }
 
+        // @ts-ignore
         const response: any = await getProductsById(event, {}, null);
 
         expect(response).toStrictEqual({
@@ -50,6 +51,7 @@ describe('getProductsById', () => {
             "body": "{}"
         }
 
+        // @ts-ignore
         const response: any = await getProductsById(event, {}, null);
 
         expect(response.statusCode).toBe(404);
@@ -66,6 +68,7 @@ describe('getProductsById', () => {
             "body": "{}"
         }
 
+        // @ts-ignore
         const response: any = await getProductsById(event, {}, null);
 
         expect(response.statusCode).toBe(400);

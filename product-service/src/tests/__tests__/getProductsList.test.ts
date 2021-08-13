@@ -24,6 +24,7 @@ describe('getProductsList', () => {
             "body": "{}"
         }
 
+        // @ts-ignore
         const response: any = await getProductsList(event, {}, null);
 
         expect(response).toStrictEqual({

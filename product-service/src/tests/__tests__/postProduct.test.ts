@@ -24,6 +24,7 @@ describe('getProductsList', () => {
             "body": JSON.stringify(productToInsert)
         }
 
+        // @ts-ignore
         const response: any = await postProduct(event, {}, null);
         response.body = JSON.parse(response.body)
 
@@ -56,6 +57,7 @@ describe('getProductsList', () => {
             "body": JSON.stringify(productToInsert)
         }
 
+        // @ts-ignore
         const response: any = await postProduct(event, {}, null);
         response.body = JSON.parse(response.body)
 
@@ -77,6 +79,7 @@ describe('getProductsList', () => {
             "body": JSON.stringify(productToInsert)
         }
 
+        // @ts-ignore
         const response: any = await postProduct(event, {}, null);
         response.body = JSON.parse(response.body)
 
@@ -99,6 +102,7 @@ describe('getProductsList', () => {
             "body": JSON.stringify(productToInsert)
         }
 
+        // @ts-ignore
         const response: any = await postProduct(event, {}, null);
         response.body = JSON.parse(response.body)
 
@@ -121,6 +125,7 @@ describe('getProductsList', () => {
             "body": JSON.stringify(productToInsert)
         }
 
+        // @ts-ignore
         const response: any = await postProduct(event, {}, null);
         response.body = JSON.parse(response.body)
 

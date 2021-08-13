@@ -1,4 +1,4 @@
-import {ValidationError} from "product-service/functions/errors";
+import {ValidationError} from "../errors";
 import { SQSEvent } from "aws-lambda";
 
 const isJson = (str) => {
