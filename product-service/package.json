@@ -17,6 +17,7 @@
     "@middy/core": "^1.5.2",
     "@middy/http-cors": "^2.4.1",
     "@middy/http-json-body-parser": "^1.5.2",
+    "@middy/sqs-partial-batch-failure": "^2.5.1",
     "@types/jest": "^26.0.23",
     "@types/pg": "^8.6.0",
     "aws-sdk": "^2.952.0",

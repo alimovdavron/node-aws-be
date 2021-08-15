@@ -1163,6 +1163,13 @@
     content-type "^1.0.4"
     http-errors "^1.6.3"
 
+"@middy/sqs-partial-batch-failure@^2.5.1":
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/@middy/sqs-partial-batch-failure/-/sqs-partial-batch-failure-2.5.1.tgz#f5588e11c62951a81e9251ff66351778b370459e"
+  integrity sha512-xHDCsMusWFn47ILmRFaPUMgVDLA1JdQn12yHIGwpX4f/xQACiPY2847l0m9AZVhkQgqUSjPGTGkjGDUqdPXXRA==
+  dependencies:
+    "@middy/util" "^2.5.1"
+
 "@middy/util@^2.5.1":
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/@middy/util/-/util-2.5.1.tgz#35987a2217cfcefe018650b5f84e78dc4ccacbdc"

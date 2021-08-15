@@ -1,6 +1,6 @@
 import {ProductServiceError} from "./errors";
 
-export default () => ({
+export default (softError: boolean = true) => ({
     onError: async (request) => {
         if(request.error instanceof ProductServiceError) {
             request.response = {
@@ -18,6 +18,10 @@ export default () => ({
                     message: "Internal server error"
                 })
             };
+        }
+
+        if(!softError) {
+            throw request.error
         }
     }
 })

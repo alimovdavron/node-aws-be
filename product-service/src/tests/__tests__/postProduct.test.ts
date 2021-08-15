@@ -92,6 +92,7 @@ describe('getProductsList', () => {
         const productToInsert = {
             title: "a",
             price: 9,
+            description: 10,
             count: -19
         }
 

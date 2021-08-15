@@ -19,7 +19,9 @@ const lambdaEntry: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (ev
 
 export const main = middyfy(lambdaEntry, {
   enableCors: true,
-  event: "ApiGatewayEvent",
+  eventConfiguration: {
+    type: 'ApiGatewayEvent'
+  },
   logFormatter: formatter,
   validator: validator([{
     type: "queryStringParameters",

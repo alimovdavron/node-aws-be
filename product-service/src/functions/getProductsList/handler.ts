@@ -14,7 +14,9 @@ const lambdaEntry = async (event, context) => {
 }
 
 export const main = middyfy(lambdaEntry, {
-    event: "ApiGatewayEvent",
+    eventConfiguration: {
+        type: 'ApiGatewayEvent'
+    },
     enableCors: true,
     logFormatter: formatter,
     validator: validator([]),

@@ -1,6 +1,12 @@
 import {ValidationError} from "../errors";
 import { SQSEvent } from "aws-lambda";
 
+export type ValidationRule = {
+    errorMessage: string,
+    parameter: string,
+    validationFunction: (value: any) => boolean;
+}
+
 const isJson = (str) => {
     try {
         JSON.parse(str);
@@ -32,8 +38,16 @@ const validEventSignature = (event: SQSEvent) => {
     }).every((isValid) => !!isValid);
 }
 
-export default () => (request: { event: SQSEvent }) => {
+export default (validationRules: ValidationRule[]) => (request: { event: SQSEvent }) => {
     if(!validEventSignature(request.event)) {
         throw new ValidationError("incorrect event structure");
     }
+
+    request.event.Records.forEach(({ body }) => {
+        validationRules.forEach((rule) => {
+            if(!rule.validationFunction(body)) {
+                throw new ValidationError(rule.errorMessage);
+            }
+        })
+    })
 }

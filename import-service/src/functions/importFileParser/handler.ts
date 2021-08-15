@@ -34,7 +34,9 @@ const lambdaEntry = async (event: S3CreateEvent ) => {
 
 export const main = middyfy(lambdaEntry, {
     logFormatter: formatter,
-    event: "S3Event",
+    eventConfiguration: {
+        type: 'S3Event'
+    },
     enableCors: true,
     validator: validator()
 });

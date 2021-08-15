@@ -81,10 +81,21 @@ resources:
                 - '*'
               MaxAge: 3600
 
+    CreateProductQueueDLQ:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: ${env:DLQ_NAME}
+
     CreateProductQueue:
       Type: AWS::SQS::Queue
       Properties:
-        QueueName: ${env:QUEUE_NAME}
+        QueueName: ${env:SQS_NAME}
+        RedrivePolicy:
+          maxReceiveCount: 2
+          deadLetterTargetArn:
+            Fn::GetAtt:
+              - CreateProductQueueDLQ
+              - Arn
 
   Outputs:
     CSVBucketOutput:
