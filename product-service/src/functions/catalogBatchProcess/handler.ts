@@ -9,6 +9,7 @@ import isValidProduct from '../common/productValidator';
 import SNS from 'libs/src/sns';
 
 const handleSingleEvent = async (record: SQSRecord) => {
+    const sns = new SNS(process.env.SNS_ARN);
     const {title, count, img_url, price, description} = JSON.parse(record.body);
     const convertedProduct = {
         title,
@@ -22,6 +23,18 @@ const handleSingleEvent = async (record: SQSRecord) => {
 
     if(isValid) {
         await insertProduct(convertedProduct)
+
+        await sns.publish(
+            'New product has been created!',
+            JSON.stringify(convertedProduct),
+            {
+                img_url: {
+                    DataType: 'String',
+                    StringValue: convertedProduct.img_url ? 'added' : 'empty',
+                }
+            }
+        )
+
         return record;
     } else {
         throw reason;
@@ -30,7 +43,6 @@ const handleSingleEvent = async (record: SQSRecord) => {
 
 const lambdaEntry = async (event: SQSEvent, context) => {
     context.callbackWaitsForEmptyEventLoop = false;
-    const sns = new SNS(process.env.SNS_ARN);
     const { Records } = event;
 
     const promises = await Promise.allSettled(Records.map(record => handleSingleEvent(record)));
@@ -41,14 +53,6 @@ const lambdaEntry = async (event: SQSEvent, context) => {
         }
     })
 
-    const successfulInserts = promises.filter(promise => promise.status === 'fulfilled').length;
-
-    if(successfulInserts > 0) {
-        await sns.publish(
-            'New products have been added!',
-            `${successfulInserts} new products have been added to your store`
-        )
-    }
 
     return promises;
 }

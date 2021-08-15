@@ -89,5 +89,19 @@ resources:
       Properties:
         Endpoint: ${env:E_MAIL}
         Protocol: email
+        FilterPolicy:
+          img_url:
+            - added
+        TopicArn:
+          Ref: CreateProductTopic
+
+    CreateProductSubscriptionEmptyImg:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: ${env:E_MAIL_EMPTY_IMG}
+        Protocol: email
+        FilterPolicy:
+          img_url:
+            - empty
         TopicArn:
           Ref: CreateProductTopic

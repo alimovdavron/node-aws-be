@@ -7,7 +7,7 @@ import failingTransactionMock from "../setup/postProduct/failingTransactionMock"
 jest.mock("../../database/connection");
 const transactionMock = mockFunction(transaction);
 
-describe('getProductsList', () => {
+describe('postProduct', () => {
     test('(1) should successfully add a product', async () => {
         transactionMock.mockImplementation(successfulTransactionMock);
 

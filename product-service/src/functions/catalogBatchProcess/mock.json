@@ -1,5 +1,6 @@
 {
   "Records": [{
+    "body": "{\"title\":\"kek\",\"price\":10}",
     "messageId": "1"
   },
   {
