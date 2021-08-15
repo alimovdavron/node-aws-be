@@ -9,7 +9,7 @@ class SNS {
     }
 
     public publish = (title: string, message: string) : Promise<any> => {
-        return this.sns.sendMessage({
+        return this.sns.publish({
             Subject: title,
             Message: message,
             TopicArn: this.arn
