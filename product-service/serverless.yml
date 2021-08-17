@@ -1,0 +1,41 @@
+service: product-service
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-central-1
+  apiGateway:
+    minimumCompressionSize: 1024
+    shouldStartNameWithService: true
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+  lambdaHashingVersion: 20201221
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+
+plugins:
+  - serverless-webpack
+
+functions:
+  getProductsList:
+    handler: src/functions/getProductsList/handler.main
+    events:
+      - http:
+          method: get
+          path: /products
+
+  getProductsById:
+    handler: src/functions/getProductsById/handler.main
+    events:
+      - http:
+          method: get
+          path: /products/{productId}
+          request:
+            parameters:
+              paths:
+                productId: true
