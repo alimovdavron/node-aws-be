@@ -1,4 +1,4 @@
-# IDE 
+# IDE
 .idea/
 
 # Logs
@@ -106,3 +106,5 @@ dist
 
 # TernJS port file
 .tern-port
+
+product-service/dbconfig.json

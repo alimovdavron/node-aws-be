@@ -4,7 +4,7 @@ export type ValidationRule = {
     type: "pathParameters" | "body" | "queryStringParameters",
     errorMessage: string,
     parameter: string,
-    validationFunction: (value: string) => boolean;
+    validationFunction: (value: any) => boolean;
 }
 
 export default (validationRules: ValidationRule[]) => ({

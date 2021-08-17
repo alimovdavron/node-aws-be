@@ -20,4 +20,3 @@ https://d1s4qelxm95ilt.cloudfront.net/
 
 * [Validation Error](https://ki4323apmh.execute-api.eu-central-1.amazonaws.com/dev/products/asdfa)
 * [No such id Error](https://ki4323apmh.execute-api.eu-central-1.amazonaws.com/dev/products/c91bc7a1-de15-4837-8a19-8cf27758a15e)
-

@@ -6,7 +6,8 @@ import { middyfy } from '@libs/lambda';
 import schema from './schema';
 import { getProductById } from "../../database/product";
 
-const lambdaEntry: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
+const lambdaEntry: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event, context) => {
+  context.callbackWaitsForEmptyEventLoop = false;
   const { productId } = event.pathParameters;
 
   return formatJSONResponse(await getProductById(productId));

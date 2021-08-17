@@ -1,13 +1,18 @@
-import { main as getProductsById }  from "../functions/getProductsById/handler";
-import products from "../database/productList";
-import productsFixture from "../fixtures/products";
+import { main as getProductsById }  from "@functions/getProductsById/handler";
+import productsFixture from "../../fixtures/products";
+import { mockFunction } from "../../jestHelper/mockFunction";
+import { PossibleQueries, requestSingle } from "../../database/connection";
 
-jest.mock('../database/productList');
-const mockedProducts = products as jest.MockedFunction<typeof products>;
+jest.mock("../../database/connection");
+const requestSingleMock = mockFunction(requestSingle);
 
 describe('getProductsById', () => {
     beforeAll(() => {
-        mockedProducts.mockImplementation(() => productsFixture);
+        requestSingleMock.mockImplementation(async (query, params) => {
+            if(query === PossibleQueries.SELECT_PRODUCT_BY_ID) {
+                return productsFixture.find(product => product.id === params[0])
+            }
+        })
     })
 
     test('should successfully return response', async () => {

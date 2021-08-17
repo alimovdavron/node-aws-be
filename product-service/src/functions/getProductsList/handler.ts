@@ -4,7 +4,9 @@ import { formatJSONResponse } from '@libs/apiGateway';
 import { middyfy } from '@libs/lambda';
 import { getProducts } from "../../database/product";
 
-const lambdaEntry = async () => {
+const lambdaEntry = async (event, context) => {
+  context.callbackWaitsForEmptyEventLoop = false;
+
   return formatJSONResponse(await getProducts());
 }
 
