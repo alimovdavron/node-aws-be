@@ -1,0 +1,74 @@
+service: import-service
+
+frameworkVersion: '2'
+
+useDotenv: true
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ${env:REGION}
+  apiGateway:
+    minimumCompressionSize: 1024
+    shouldStartNameWithService: true
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+  lambdaHashingVersion: 20201221
+  iamRoleStatements:
+    - Effect: Allow
+      Action: s3:*
+      Resource:
+        - arn:aws:s3:::${env:S3_BUCKET_NAME}
+        - arn:aws:s3:::${env:S3_BUCKET_NAME}/*
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+  s3BucketName: ${env:S3_BUCKET_NAME}
+
+plugins:
+  - serverless-webpack
+  - serverless-dotenv-plugin
+
+functions:
+  importProductsFile:
+    handler: src/functions/importProductsFile/handler.main
+    events:
+      - http:
+          method: get
+          cors: true
+          path: /import
+
+  importFileParser:
+    handler: src/functions/importFileParser/handler.main
+    events:
+      - s3:
+          bucket: ${env:S3_BUCKET_NAME}
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploaded/
+            - suffix: .csv
+          existing: true
+
+resources:
+  Resources:
+    CSVBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.s3BucketName}
+        AccessControl: Private
+        CorsConfiguration:
+          CorsRules:
+            - AllowedMethods:
+                - PUT
+                - POST
+                - GET
+              AllowedOrigins:
+                - '*'
+              AllowedHeaders:
+                - '*'
+              MaxAge: 3600
+
+  Outputs:
+    CSVBucketOutput:
+      Value: !Ref CSVBucket

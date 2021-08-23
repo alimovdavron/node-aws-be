@@ -9,9 +9,8 @@ import loggingMiddleware from "@libs/loggingMiddleware";
 export const middyfy = (handler, enableCors: boolean, validationRules: null | ValidationRule[] = null) => {
     const middified = middy(handler)
 
-    middified.use(loggingMiddleware());
-
     middified.use(middyJsonBodyParser())
+    middified.use(loggingMiddleware());
 
     if(validationRules) {
         middified.use(validationMiddleware(validationRules))
