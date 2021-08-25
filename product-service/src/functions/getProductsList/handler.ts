@@ -6,8 +6,7 @@ import { getProducts } from "../../database/product";
 import formatter from "libs/src/logFormatters/apiGatewayEvent";
 import validator from "libs/src/validators/apiGatewayEventValidator";
 
-// @ts-ignore
-const lambdaEntry = async (event, context) => {
+const lambdaEntry = async (_, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
 
   return formatJSONResponse(await getProducts());

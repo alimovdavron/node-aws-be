@@ -22,9 +22,7 @@ export const apply = async (stream: ReadableStream, handler: Function) => {
             .on('data', async (row) => {
                 await handler(row);
             })
-            .on('end', () => {
-                resolve();
-            })
+            .on('end', resolve)
             .on('error', reject)
     })
 }

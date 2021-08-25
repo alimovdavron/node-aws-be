@@ -1,14 +1,12 @@
 import 'source-map-support/register';
 
-import type { ValidatedEventAPIGatewayProxyEvent } from 'libs/src/apiGateway';
 import { formatJSONResponse } from 'libs/src/apiGateway';
 import { middyfy } from 'libs/src/lambda';
-import schema from './schema';
 import { getProductById } from "../../database/product";
 import formatter from "libs/src/logFormatters/apiGatewayEvent"
 import validator from 'libs/src/validators/apiGatewayEventValidator';
 
-const lambdaEntry: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event, context) => {
+const lambdaEntry = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
   const { productId } = event.pathParameters;
 
