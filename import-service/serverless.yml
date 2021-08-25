@@ -50,6 +50,9 @@ functions:
           method: get
           cors: true
           path: /import
+          authorizer:
+            arn: ${cf:authorization-service-dev.basicAuthorizerArn}
+            identitySource: method.request.header.Authorization
 
   importFileParser:
     handler: src/functions/importFileParser/handler.main
