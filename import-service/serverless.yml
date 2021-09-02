@@ -12,13 +12,25 @@ provider:
     shouldStartNameWithService: true
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    SQS_URL:
+      Ref: CreateProductQueue
+
   lambdaHashingVersion: 20201221
-  iamRoleStatements:
-    - Effect: Allow
-      Action: s3:*
-      Resource:
-        - arn:aws:s3:::${env:S3_BUCKET_NAME}
-        - arn:aws:s3:::${env:S3_BUCKET_NAME}/*
+  iam:
+    role:
+      name: import-service-role
+      statements:
+        - Effect: Allow
+          Action: s3:*
+          Resource:
+            - arn:aws:s3:::${env:S3_BUCKET_NAME}
+            - arn:aws:s3:::${env:S3_BUCKET_NAME}/*
+        - Effect: Allow
+          Action: sqs:*
+          Resource:
+            - Fn::GetAtt:
+                - CreateProductQueue
+                - Arn
 
 custom:
   webpack:
@@ -69,6 +81,31 @@ resources:
                 - '*'
               MaxAge: 3600
 
+    CreateProductQueueDLQ:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: ${env:DLQ_NAME}
+
+    CreateProductQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: ${env:SQS_NAME}
+        RedrivePolicy:
+          maxReceiveCount: 2
+          deadLetterTargetArn:
+            Fn::GetAtt:
+              - CreateProductQueueDLQ
+              - Arn
+
   Outputs:
     CSVBucketOutput:
       Value: !Ref CSVBucket
+    createProductQueue:
+      Value: !Ref CreateProductQueue
+      Export:
+        Name: createProductQueue
+    createProductQueueArn:
+      Value:
+         Fn::GetAtt:
+            - CreateProductQueue
+            - Arn

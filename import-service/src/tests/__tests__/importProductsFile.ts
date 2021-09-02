@@ -60,7 +60,8 @@ describe('importProductsFile', () => {
             "body": "{}"
         };
 
-        const response = await importProductsFile(event, null, null);
+        // @ts-ignore
+        const response: any = await importProductsFile(event, {}, null);
 
         expect(response.body).toBe(fileName + noise);
     })
@@ -76,7 +77,8 @@ describe('importProductsFile', () => {
             "body": "{}"
         };
 
-        const response = await importProductsFile(event, null, null);
+        // @ts-ignore
+        const response: any = await importProductsFile(event, {}, null);
 
         expect(response.statusCode).toBe(400);
     })
@@ -89,7 +91,8 @@ describe('importProductsFile', () => {
             "body": "{}"
         };
 
-        const response = await importProductsFile(event, null, null);
+        // @ts-ignore
+        const response: any = await importProductsFile(event, {}, null);
 
         expect(response.statusCode).toBe(400);
     })

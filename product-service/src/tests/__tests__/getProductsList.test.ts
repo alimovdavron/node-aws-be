@@ -24,7 +24,8 @@ describe('getProductsList', () => {
             "body": "{}"
         }
 
-        const response: any = await getProductsList(event, null, null);
+        // @ts-ignore
+        const response: any = await getProductsList(event, {}, null);
 
         expect(response).toStrictEqual({
             statusCode: 200,

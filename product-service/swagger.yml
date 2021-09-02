@@ -81,4 +81,4 @@ definitions:
         example: "A 1957 novel by Ayn Rand"
       title:
         type: "string"
-        example: "Atlas Srugged"
+        example: "Atlas Shrugged"

@@ -12,7 +12,23 @@ provider:
     shouldStartNameWithService: true
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    SQS_URL: ${cf:import-service-dev.createProductQueue}
+    SNS_ARN:
+      Ref: CreateProductTopic
+
   lambdaHashingVersion: 20201221
+  iam:
+    role:
+      name: product-service-role
+      statements:
+        - Effect: Allow
+          Action: sqs:*
+          Resource:
+            - ${cf:import-service-dev.createProductQueueArn}
+        - Effect: Allow
+          Action: sns:*
+          Resource:
+            Ref: CreateProductTopic
 
 custom:
   webpack:
@@ -43,6 +59,13 @@ functions:
             schemas:
               application/json: ${file(src/functions/postProduct/schema.json)}
 
+  catalogBatchProcess:
+    handler: src/functions/catalogBatchProcess/handler.main
+    events:
+      - sqs:
+          arn: ${cf:import-service-dev.createProductQueueArn}
+          batchSize: 5
+
   getProductsById:
     handler: src/functions/getProductsById/handler.main
     events:
@@ -54,3 +77,31 @@ functions:
             parameters:
               paths:
                 productId: true
+resources:
+  Resources:
+    CreateProductTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: ${env:TOPIC_NAME}
+
+    CreateProductSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: ${env:E_MAIL}
+        Protocol: email
+        FilterPolicy:
+          img_url:
+            - added
+        TopicArn:
+          Ref: CreateProductTopic
+
+    CreateProductSubscriptionEmptyImg:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: ${env:E_MAIL_EMPTY_IMG}
+        Protocol: email
+        FilterPolicy:
+          img_url:
+            - empty
+        TopicArn:
+          Ref: CreateProductTopic

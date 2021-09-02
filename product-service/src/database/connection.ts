@@ -86,7 +86,6 @@ const _requestArray = (connection: PoolClient | undefined) => async <T> (query: 
             throw e;
         }
         finally {
-            // @ts-ignore
             client.release();
         }
     }
@@ -119,7 +118,6 @@ export const transaction = async <T>(callback: (connection: Connection) => Promi
             throw e;
         }
     } finally {
-        // @ts-ignore
         client.release()
     }
 

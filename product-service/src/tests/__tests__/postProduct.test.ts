@@ -7,7 +7,7 @@ import failingTransactionMock from "../setup/postProduct/failingTransactionMock"
 jest.mock("../../database/connection");
 const transactionMock = mockFunction(transaction);
 
-describe('getProductsList', () => {
+describe('postProduct', () => {
     test('(1) should successfully add a product', async () => {
         transactionMock.mockImplementation(successfulTransactionMock);
 
@@ -24,7 +24,8 @@ describe('getProductsList', () => {
             "body": JSON.stringify(productToInsert)
         }
 
-        const response: any = await postProduct(event, null, null);
+        // @ts-ignore
+        const response: any = await postProduct(event, {}, null);
         response.body = JSON.parse(response.body)
 
         expect(response).toStrictEqual({
@@ -56,7 +57,8 @@ describe('getProductsList', () => {
             "body": JSON.stringify(productToInsert)
         }
 
-        const response: any = await postProduct(event, null, null);
+        // @ts-ignore
+        const response: any = await postProduct(event, {}, null);
         response.body = JSON.parse(response.body)
 
         expect(response.statusCode).toBe(400);
@@ -77,7 +79,8 @@ describe('getProductsList', () => {
             "body": JSON.stringify(productToInsert)
         }
 
-        const response: any = await postProduct(event, null, null);
+        // @ts-ignore
+        const response: any = await postProduct(event, {}, null);
         response.body = JSON.parse(response.body)
 
         expect(response.statusCode).toBe(400);
@@ -89,6 +92,7 @@ describe('getProductsList', () => {
         const productToInsert = {
             title: "a",
             price: 9,
+            description: 10,
             count: -19
         }
 
@@ -99,7 +103,8 @@ describe('getProductsList', () => {
             "body": JSON.stringify(productToInsert)
         }
 
-        const response: any = await postProduct(event, null, null);
+        // @ts-ignore
+        const response: any = await postProduct(event, {}, null);
         response.body = JSON.parse(response.body)
 
         expect(response.statusCode).toBe(400);
@@ -121,7 +126,8 @@ describe('getProductsList', () => {
             "body": JSON.stringify(productToInsert)
         }
 
-        const response: any = await postProduct(event, null, null);
+        // @ts-ignore
+        const response: any = await postProduct(event, {}, null);
         response.body = JSON.parse(response.body)
 
         expect(response.statusCode).toBe(500);

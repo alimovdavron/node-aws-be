@@ -6,15 +6,13 @@ interface IProductServiceError {
 export class ProductServiceError extends Error implements IProductServiceError {
     statusCode: number;
     constructor(statusCode: number, message: string) {
-        super();
+        super(message);
         this.statusCode = statusCode;
-        this.message = message;
     }
 }
 
 export class ValidationError extends ProductServiceError implements IProductServiceError {
     constructor(message: string) {
-        super(400, '');
-        this.message = `ValidationError: ${message}`
+        super(400, `ValidationError: ${message}`);
     }
 }

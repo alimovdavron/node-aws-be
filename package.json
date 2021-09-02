@@ -1,0 +1,7 @@
+{
+    "private": true,
+    "workspaces": {
+        "packages": ["import-service", "product-service", "libs"],
+        "nohoist": ["**"]
+    }
+}

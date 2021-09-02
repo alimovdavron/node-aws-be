@@ -1,4 +1,4 @@
-import {ValidationError} from "@functions/errors";
+import {ValidationError} from "../errors";
 import { S3Event } from "aws-lambda";
 
 const isObject = value => typeof value === 'object' && value !== null

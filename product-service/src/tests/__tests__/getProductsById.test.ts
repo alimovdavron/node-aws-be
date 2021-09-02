@@ -28,7 +28,8 @@ describe('getProductsById', () => {
             "body": "{}"
         }
 
-        const response: any = await getProductsById(event, null, null);
+        // @ts-ignore
+        const response: any = await getProductsById(event, {}, null);
 
         expect(response).toStrictEqual({
             statusCode: 200,
@@ -50,7 +51,8 @@ describe('getProductsById', () => {
             "body": "{}"
         }
 
-        const response: any = await getProductsById(event, null, null);
+        // @ts-ignore
+        const response: any = await getProductsById(event, {}, null);
 
         expect(response.statusCode).toBe(404);
     })
@@ -66,7 +68,8 @@ describe('getProductsById', () => {
             "body": "{}"
         }
 
-        const response: any = await getProductsById(event, null, null);
+        // @ts-ignore
+        const response: any = await getProductsById(event, {}, null);
 
         expect(response.statusCode).toBe(400);
     })

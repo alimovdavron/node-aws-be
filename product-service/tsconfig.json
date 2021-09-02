@@ -22,5 +22,8 @@
   ],
   "ts-node": {
     "require": ["tsconfig-paths/register"]
-  }
+  },
+  "references": [{
+    "path": "../libs/src"
+  }]
 }

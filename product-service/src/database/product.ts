@@ -1,6 +1,6 @@
 import { Product } from "../modelSchemas/product"
 import { Stock } from "../modelSchemas/stock"
-import { ProductServiceError } from "@functions/errors";
+import { ProductServiceError } from "libs/src/errors";
 import { PossibleQueries, requestArray, requestSingle, transaction } from './connection';
 
 export type ProductResponse = Product & Pick<Stock, "count">
