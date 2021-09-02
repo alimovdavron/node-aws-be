@@ -27,14 +27,14 @@ export const main = async (event, _, callback) => {
   const credentials = Buffer.from(token, 'base64').toString().split(":");
 
   if(credentials.length !== 2) {
-    callback(null, deny(event.methodArn));
+    callback('Unauthorized');
   }
 
   const [username, password] = credentials;
 
   if(process.env[username] === password) {
-    return allow(event.methodArn);
+    return callback(null, allow(event.methodArn));
   }
-  else return deny(event.methodArn);
+  else return callback(null, deny(event.methodArn));
 }
 
