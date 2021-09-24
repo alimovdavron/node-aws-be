@@ -50,6 +50,9 @@ functions:
           method: get
           cors: true
           path: /import
+          authorizer:
+            arn: ${cf:authorization-service-dev.basicAuthorizerArn}
+            identitySource: method.request.header.Authorization
 
   importFileParser:
     handler: src/functions/importFileParser/handler.main
@@ -64,6 +67,17 @@ functions:
 
 resources:
   Resources:
+    GatewayResponseDefault4XX:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+          gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
+
     CSVBucket:
       Type: AWS::S3::Bucket
       Properties:
