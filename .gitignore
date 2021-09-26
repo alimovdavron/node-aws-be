@@ -108,3 +108,7 @@ dist
 .tern-port
 
 product-service/dbconfig.json
+
+bff-service/.DS_Store
+
+bff-service/.env.eb
