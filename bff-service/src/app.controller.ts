@@ -4,50 +4,42 @@ import {
   Param,
   Req,
   Res,
-  BadRequestException,
+  BadRequestException, UseInterceptors,
 } from '@nestjs/common';
-import { AppService } from './app.service';
 import axios from 'axios';
 import * as querystring from 'querystring';
-import Cache from './cache';
+import CacheProvider from "./cache.provider";
+import {ServiceInterceptor} from "./service.interceptor";
+import {CacheInterceptor} from "./cache.interceptor";
 
-const cache = new Cache(120);
-
-@Controller('/:path/*')
+@Controller(['/:path/*', '/:path'])
+@UseInterceptors(ServiceInterceptor, CacheInterceptor)
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  static sendRequest = async (url, headers, body, method) => {
-    return axios({
+  static sendRequest = async (url, body, method) => {
+    const config:any = {
       url,
-      method: method,
-      data: body,
-      headers,
-    });
+      method,
+    }
+    if(Object.getOwnPropertyNames(body).length > 0) {
+      config.data = body
+    }
+    return axios(config);
   };
 
   @All()
-  bff(@Param('path') path: string, @Req() req, @Res() res): string {
-    try {
-      if (process.env[path]) {
-        if (
-          req.method === 'GET' &&
-          process.env[`${path}_CACHE_ENABLED`] === 'true'
-        ) {
-          const cachedValue = cache.getValue(req.originalUrl);
-          if (cachedValue) {
-            return cachedValue;
-          }
-        }
+  async bff(@Param('path') path, @Req() req, @Res() res): Promise<{data: any, statusCode: number}> {
 
-        return 'success';
-      } else {
-        throw new BadRequestException('There is no such service');
-      }
-    } catch (e) {
-      const { status, data } = e.response;
+    try {
+      const { data, status } = await AppController.sendRequest(
+          process.env[path] + req.originalUrl,
+          req.body,
+          req.method
+      )
 
       res.status(status).send(data);
+      return data
+    } catch (e) {
+      return e.response
     }
   }
 }
