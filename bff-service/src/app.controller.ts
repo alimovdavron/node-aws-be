@@ -13,13 +13,19 @@ import {ServiceInterceptor} from "./service.interceptor";
 import { CacheInterceptor } from "./cache.interceptor";
 
 @Controller(['/:path/*', '/:path'])
+@UseInterceptors(ServiceInterceptor)
 export class AppController {
-  static sendRequest = async (url, body, method) => {
+  static sendRequest = async (url, headers, body, method) => {
     let response;
+
+    delete headers.host
+    delete headers.connection
+    delete headers['if-none-match']
 
     try{
       const config:any = {
         url,
+        headers,
         method,
       }
       if(Object.getOwnPropertyNames(body).length > 0) {
@@ -36,12 +42,17 @@ export class AppController {
 
   @All()
   @UseInterceptors(CacheInterceptor)
-  async bff(@Param('path') path, @Req() req): Promise<{data: any, statusCode: number}> {
-    const { data, status } = await AppController.sendRequest(
+  async bff(@Param('path') path, @Req() req): Promise<{data: any, headers: any}> {
+    const { data, status, headers } = await AppController.sendRequest(
         process.env[path] + req.originalUrl,
+        req.headers,
         req.body,
         req.method
     )
+
+    for(const [key, value] of Object.entries(headers)) {
+        req.res.setHeader(key, value)
+    }
 
     if(status >= 300) {
       throw new HttpException(data.message, status)

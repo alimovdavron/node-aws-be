@@ -7,6 +7,6 @@ import {CacheInterceptor} from "./cache.interceptor";
 @Module({
   imports: [],
   controllers: [AppController],
-  providers: [CacheProvider, CacheInterceptor],
+  providers: [CacheProvider, CacheInterceptor, ServiceInterceptor],
 })
 export class AppModule {}
