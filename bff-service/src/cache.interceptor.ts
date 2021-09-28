@@ -7,18 +7,20 @@ import CacheProvider from "./cache.provider";
 export class CacheInterceptor implements NestInterceptor {
     constructor(private cache: CacheProvider) {}
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-        const req = context.switchToHttp().getRequest()
+        const req = context.switchToHttp().getRequest();
         const path = req.params.path || '';
         const cacheable = req.method === 'GET' && process.env[`${path}_CACHE_ENABLED`] === 'true'
 
         if(cacheable) {
             const cachedValue = this.cache.getValue(req.originalUrl);
             if (cachedValue) {
+                console.log('got from cache')
                 return of(cachedValue)
             }
         }
 
         return next.handle().pipe(tap((data) => {
+            console.log(req.originalUrl)
             if(cacheable) {
                 this.cache.setValue(req.originalUrl, data)
             }
