@@ -54,7 +54,9 @@ export class AppController {
         req.res.setHeader(key, value)
     }
 
-    if(status >= 300) {
+    req.res.status(status);
+
+    if(status >= 400) {
       throw new HttpException(data.message, status)
     }
 
