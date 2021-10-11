@@ -34,7 +34,7 @@ export class AppController {
       response = await axios(config);
     }
     catch (e) {
-      response = e;
+      response = e.response;
     }
 
     return response;
