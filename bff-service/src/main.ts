@@ -8,6 +8,6 @@ async function bootstrap() {
     path: path.resolve(__dirname, '../.env.eb'),
   });
   const app = await NestFactory.create(AppModule);
-  await app.listen(4000);
+  await app.listen(process.env.PORT || 4000);
 }
 bootstrap();

@@ -1,4 +1,10 @@
-import {Injectable, NestInterceptor, ExecutionContext, CallHandler, BadRequestException} from '@nestjs/common';
+import {
+    Injectable,
+    NestInterceptor,
+    ExecutionContext,
+    CallHandler,
+    BadGatewayException
+} from '@nestjs/common';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -8,7 +14,7 @@ export class ServiceInterceptor implements NestInterceptor {
         const path = ctx.getRequest().params.path;
 
         if (!path || !process.env[path]) {
-            throw new BadRequestException('There is no such service');
+            throw new BadGatewayException('Cannot process request');
         }
 
         return next.handle()
