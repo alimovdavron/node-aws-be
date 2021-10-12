@@ -4,16 +4,18 @@ import {
   Param,
   Req,
   Res,
-  BadRequestException, UseInterceptors, HttpException,
+  BadRequestException, UseInterceptors, HttpException, UseFilters,
 } from '@nestjs/common';
 import axios from 'axios';
 import * as querystring from 'querystring';
 import CacheProvider from "./cache.provider";
 import {ServiceInterceptor} from "./service.interceptor";
 import { CacheInterceptor } from "./cache.interceptor";
+import {AllExceptionsFilter} from "./exception.filter";
 
 @Controller(['/:path/*', '/:path'])
 @UseInterceptors(ServiceInterceptor)
+@UseFilters(new AllExceptionsFilter())
 export class AppController {
   static sendRequest = async (url, headers, body, method) => {
     let response;
@@ -57,7 +59,7 @@ export class AppController {
     req.res.status(status);
 
     if(status >= 400) {
-      throw new HttpException(data.message, status)
+      throw new HttpException(data, status)
     }
 
     return data
